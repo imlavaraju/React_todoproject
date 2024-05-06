@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import "./index";
 
-function App() {
+function TodoList() {
+  const [Todo, setTodo] = useState([]);
+  const [inputvalue, setinputvalue] = useState("");
+
+  const AddTodo = () => {
+    if (inputvalue.trim() !== "") {
+      setTodo([...Todo, inputvalue]);
+      setinputvalue("");
+    }
+  };
+
+  const Deletetodo = (index) => {
+    const deletetodo = [...Todo];
+    deletetodo.splice(index, 1);
+    setTodo(deletetodo);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="todo">
+        <h1> Todilist</h1>
+        <div className="todo_1">
+          <input
+            value={inputvalue}
+            onChange={(event) => setinputvalue(event.target.value)}
+          />
+          <button className="addbutton" onClick={AddTodo}>
+            Add
+          </button>
+        </div>
+
+        <div className="todo_2">
+          <ul>
+            {Todo.map((eachtodo, index) => (
+              <li className="li">
+                <div>
+                  <input className="checkbox" type="checkbox"></input>
+                  {eachtodo}
+                </div>
+                <button className="delbutton" onClick={() => Deletetodo(index)}>
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;
+export default TodoList;
